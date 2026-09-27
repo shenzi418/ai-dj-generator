@@ -1,0 +1,20 @@
+[project]
+name = "ai-dj-generator"
+version = "0.1.0"
+description = "Generate DJ-style transitions between two songs with beat-aware cueing and ACE-Step repaint."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Haowen Shen" }]
+
+[tool.ruff]
+line-length = 140
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]

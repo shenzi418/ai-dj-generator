@@ -1,3 +1,4 @@
+import argparse
 import logging
 from typing import Optional
 
@@ -80,11 +81,12 @@ def build_ui() -> gr.Blocks:
     with gr.Blocks() as demo:
         gr.Markdown(
             """
-# AI DJ Transition Generator (Phase A/B)
+# AI DJ Transition Generator
 
-This app follows the coursework refinement plan through **Phase B**:
-- deterministic transition API (two songs in -> transition + stitched artifacts out)
-- ACE-Step repaint seam generation with bar-defined transition periods
+Upload two tracks and generate a DJ-style transition between them:
+- automatic BPM detection, beat/phrase-aware cue-point selection and tempo matching
+- ACE-Step **repaint** regenerates only the seam, conditioned on a style preset + your text prompt
+- outputs a transition-only clip and a stitched preview (Song A -> transition -> Song B)
             """.strip()
         )
 
@@ -214,4 +216,9 @@ This app follows the coursework refinement plan through **Phase B**:
 demo = build_ui()
 
 if __name__ == "__main__":
-    demo.launch()
+    parser = argparse.ArgumentParser(description="Launch the AI DJ Transition Generator web UI.")
+    parser.add_argument("--share", action="store_true", help="Create a temporary public Gradio link.")
+    parser.add_argument("--host", default=None, help="Interface to bind, e.g. 0.0.0.0 to expose on your network.")
+    parser.add_argument("--port", type=int, default=None, help="Port to serve on (default 7860).")
+    args = parser.parse_args()
+    demo.queue().launch(share=args.share, server_name=args.host, server_port=args.port)

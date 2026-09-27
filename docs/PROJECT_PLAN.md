@@ -1,9 +1,13 @@
-# Coursework Detailed Plan (Refinement Track)
+# Project Plan (Refinement Track)
+
+> This is the original design and execution plan written during the MSc Generative AI course project.
+> It is kept for context on the design rationale and the evaluation protocol. See the main
+> [README](../README.md) for the current state of the project.
 
 ## Implementation Status (Repo)
 
 - [x] Phase A baseline refactor
-- [x] Phase B ACE-Step integration (`repaint`) + fallback
+- [x] Phase B ACE-Step integration (`repaint`) (crossfade fallback was later dropped: ACE-Step is required)
 - [ ] Phase C plugin config system (`plugins.yaml`)
 - [ ] Phase D additional interactive controls polish
 - [ ] Phase E evaluation report artifacts

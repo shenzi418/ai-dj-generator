@@ -1556,13 +1556,13 @@ def generate_transition_artifacts(request: TransitionRequest) -> TransitionResul
 
 
 def _build_arg_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Deterministic DJ transition generation (Phase A/B).")
+    parser = argparse.ArgumentParser(description="Generate an AI DJ transition between two songs with ACE-Step repaint.")
     parser.add_argument("--song-a", required=True, help="Path to Song A audio file.")
     parser.add_argument("--song-b", required=True, help="Path to Song B audio file.")
     parser.add_argument("--plugin", default="Smooth Blend", choices=list(PLUGIN_PRESETS.keys()), help="Transition style plugin preset.")
     parser.add_argument("--instruction", default="", help="Extra text instruction for generation.")
     parser.add_argument("--pre-sec", type=float, default=6.0, help="Seconds before seam from Song A.")
-    parser.add_argument("--repaint-sec", type=float, default=4.0, help="Repaint seam width in seconds.")
+    parser.add_argument("--repaint-sec", type=float, default=4.0, help="Deprecated: transition length is set by --transition-bars.")
     parser.add_argument("--post-sec", type=float, default=6.0, help="Seconds after seam from Song B.")
     parser.add_argument("--analysis-sec", type=float, default=45.0, help="Analysis window in seconds.")
     parser.add_argument("--bpm-target", type=float, default=None, help="Optional BPM override target for Song A.")
