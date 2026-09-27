@@ -29,3 +29,6 @@ outputs/
 checkpoints/
 .acestep_runtime/
 pretrained_models/
+
+# Third-party checkouts (e.g. ACE-Step, cloned by scripts/install_acestep.sh)
+third_party/

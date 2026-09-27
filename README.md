@@ -1,8 +1,9 @@
 # AI DJ Transition Generator
 
 [![CI](https://github.com/shenzi418/ai-dj-generator/actions/workflows/ci.yml/badge.svg)](https://github.com/shenzi418/ai-dj-generator/actions/workflows/ci.yml)
-![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
+![Python 3.11 | 3.12](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shenzi418/ai-dj-generator/blob/main/notebooks/colab_demo.ipynb)
 
 Give it two songs and it generates a **DJ-style transition** between them. A signal-processing front end works out *where* and *how* to mix (tempo, beats, phrases, vocal/bass clashes). A generative music model (**ACE-Step 1.5**) then re-imagines only the seam, guided by a style preset and a free-text prompt.
 
@@ -11,6 +12,14 @@ This started as my MSc Generative AI course project. The idea is to *refine* a s
 <!-- TODO: add a link to a live demo / short video and 2-3 before/after audio samples here -->
 
 <p align="center"><img src="docs/images/app-ui.png" alt="Gradio interface of the AI DJ Transition Generator" width="720"></p>
+
+## Try it
+
+| Option | What you need | How |
+| --- | --- | --- |
+| **Google Colab** (easiest) | A Google account | Click [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/shenzi418/ai-dj-generator/blob/main/notebooks/colab_demo.ipynb), switch the runtime to a GPU and choose *Run all*. You get a public link to the web app, running on Colab's free GPU. |
+| **Your own GPU machine** | Python 3.11/3.12 + NVIDIA GPU | [Install](#install), then `python app.py --share` for a temporary public link you can send to anyone. |
+| **Command line** | Same as above | See [Run from the command line](#run-from-the-command-line). |
 
 ## What it does
 
@@ -61,7 +70,7 @@ Any free-text instruction is appended to the preset caption.
 
 ### Requirements
 
-- Python **3.11** (required by ACE-Step)
+- Python **3.11 or 3.12** (required by ACE-Step)
 - `ffmpeg` and `libsndfile` on the system path (`packages.txt`)
 - A CUDA GPU is strongly recommended. ACE-Step also runs on Apple Silicon (MLX) and, slowly, on CPU.
 
@@ -72,19 +81,20 @@ git clone https://github.com/shenzi418/ai-dj-generator.git
 cd ai-dj-generator
 python3.11 -m venv .venv && source .venv/bin/activate
 
+bash scripts/install_acestep.sh   # ACE-Step backend (clones into third_party/)
 pip install -r requirements.txt
-pip install git+https://github.com/ACE-Step/ACE-Step-1.5.git
 ```
 
-The first run downloads the ACE-Step checkpoints, which takes a while.
+`scripts/install_acestep.sh` exists because ACE-Step pins CUDA builds of torch and a bundled package that a plain `pip install git+…` can't resolve. The first run downloads the ACE-Step checkpoints, which takes a while.
 
 ### Run the web app
 
 ```bash
-python app.py
+python app.py            # local only: http://localhost:7860
+python app.py --share    # plus a temporary public *.gradio.live link
 ```
 
-Then open the local Gradio URL, upload two tracks, choose a preset and click **Generate transition artifacts**.
+Upload two tracks, choose a preset and click **Generate transition artifacts**. The `--share` link tunnels to your machine, so it works only while the app is running. That makes it handy for a live demo or an interview without deploying anything.
 
 ### Run from the command line
 
@@ -127,9 +137,9 @@ print(result.transition_path, result.details["cue_points_sec"])
 
 Demucs only runs on short analysis windows, not full tracks. Disabling it makes the pipeline fall back to the pure-DSP heuristics.
 
-### Deploying to Hugging Face Spaces
+### Hosting it permanently (optional)
 
-Create a Gradio Space on GPU hardware and push `app.py`, `pipeline/`, `requirements.txt` and `packages.txt`. Add ACE-Step to `requirements.txt` (the commented line at the bottom). Checkpoints are cached under `/data` when persistent storage is enabled. The app is built for **user uploads**, so don't commit copyrighted audio to the Space.
+The app is a standard Gradio app, so it runs on any GPU host that can run Python (a cloud VM with `python app.py --host 0.0.0.0`, Hugging Face Spaces, Modal, etc.). For showing the project, the Colab notebook or `--share` is usually enough and costs nothing.
 
 ## Project structure
 
@@ -140,11 +150,13 @@ Create a Gradio Space on GPU hardware and push `app.py`, `pipeline/`, `requireme
 │   ├── transition_generator.py    # End-to-end pipeline, ACE-Step integration, CLI
 │   ├── cuepoint_selector.py       # Candidate generation and cue-pair scoring
 │   └── audio_utils.py             # Decoding, BPM/beat tracking, fades, resampling
+├── notebooks/colab_demo.ipynb     # One-click Colab demo (launches the web UI)
+├── scripts/install_acestep.sh     # Installs the ACE-Step backend with pip
 ├── tests/                         # Unit + integration tests (no GPU / model needed)
 ├── docs/PROJECT_PLAN.md           # Original design plan and roadmap
 ├── requirements.txt               # Runtime dependencies
 ├── requirements-dev.txt           # Test/lint dependencies
-└── packages.txt                   # System packages for HF Spaces
+└── packages.txt                   # System packages (ffmpeg, libsndfile)
 ```
 
 ## Development

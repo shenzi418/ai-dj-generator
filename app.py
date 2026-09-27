@@ -1,3 +1,4 @@
+import argparse
 import logging
 from typing import Optional
 
@@ -215,4 +216,9 @@ Upload two tracks and generate a DJ-style transition between them:
 demo = build_ui()
 
 if __name__ == "__main__":
-    demo.launch()
+    parser = argparse.ArgumentParser(description="Launch the AI DJ Transition Generator web UI.")
+    parser.add_argument("--share", action="store_true", help="Create a temporary public Gradio link.")
+    parser.add_argument("--host", default=None, help="Interface to bind, e.g. 0.0.0.0 to expose on your network.")
+    parser.add_argument("--port", type=int, default=None, help="Port to serve on (default 7860).")
+    args = parser.parse_args()
+    demo.queue().launch(share=args.share, server_name=args.host, server_port=args.port)

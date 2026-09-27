@@ -11,5 +11,5 @@ scipy
 demucs
 
 # ACE-Step 1.5 is the generation backend and is required to produce transitions.
-# It is installed separately because it pins its own dependency set (Python 3.11):
-#   pip install git+https://github.com/ACE-Step/ACE-Step-1.5.git
+# It is installed separately because it pins its own dependency set (Python 3.11/3.12):
+#   bash scripts/install_acestep.sh
