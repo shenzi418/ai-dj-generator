@@ -1,0 +1,8 @@
+# Lightweight dependencies for running the unit tests and linter.
+# The tests exercise the DSP / cue-selection code and do not need torch, Demucs or ACE-Step.
+numpy
+scipy
+librosa
+soundfile
+pytest
+ruff

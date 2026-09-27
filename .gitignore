@@ -1,2 +1,31 @@
-# Coursework spec notebook (local reference only)
-(0) 70113_Generative_AI_README_for_Coursework.ipynb
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Editors / OS
+.DS_Store
+.vscode/
+.idea/
+.ipynb_checkpoints/
+
+# Local course reference material (not redistributed)
+*Coursework*.ipynb
+
+# Audio: never commit copyrighted songs; the app is designed for user uploads
+*.mp3
+*.wav
+*.flac
+*.m4a
+Songs/
+Test_songs/
+
+# Generated outputs and model runtime
+outputs/
+checkpoints/
+.acestep_runtime/
+pretrained_models/

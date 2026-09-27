@@ -80,11 +80,12 @@ def build_ui() -> gr.Blocks:
     with gr.Blocks() as demo:
         gr.Markdown(
             """
-# AI DJ Transition Generator (Phase A/B)
+# AI DJ Transition Generator
 
-This app follows the coursework refinement plan through **Phase B**:
-- deterministic transition API (two songs in -> transition + stitched artifacts out)
-- ACE-Step repaint seam generation with bar-defined transition periods
+Upload two tracks and generate a DJ-style transition between them:
+- automatic BPM detection, beat/phrase-aware cue-point selection and tempo matching
+- ACE-Step **repaint** regenerates only the seam, conditioned on a style preset + your text prompt
+- outputs a transition-only clip and a stitched preview (Song A -> transition -> Song B)
             """.strip()
         )
 
